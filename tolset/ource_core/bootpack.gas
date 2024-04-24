@@ -1,0 +1,1106 @@
+	.file	"bootpack.c"
+	.data
+LC0:
+	.ascii "WELCOME TO OURSE\0"
+	.text
+	.balign 2
+.globl _HariMain
+	.def	_HariMain;	.scl	2;	.type	32;	.endef
+_HariMain:
+	pushl	%ebp
+	movl	%esp, %ebp
+	call	_init_palette
+	pushl	$3
+	pushl	$20
+	pushl	$20
+	pushl	$1
+	pushl	$320
+	pushl	$LC0
+	pushl	$655360
+	call	_draw_word
+	pushl	$2
+	pushl	$60
+	pushl	$120
+	pushl	$2
+	pushl	$320
+	pushl	$LC0
+	pushl	$655360
+	call	_draw_word
+	addl	$56, %esp
+	pushl	$2
+	pushl	$90
+	pushl	$10
+	pushl	$4
+	pushl	$320
+	pushl	$LC0
+	pushl	$655360
+	call	_draw_word
+	addl	$28, %esp
+L2:
+	call	_io_hlt
+	jmp	L2
+	.data
+_table_rgb.0:
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	-1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	-1
+	.byte	0
+	.byte	-1
+	.byte	-1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	-1
+	.byte	-1
+	.byte	0
+	.byte	-1
+	.byte	0
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.byte	-1
+	.byte	-58
+	.byte	-58
+	.byte	-58
+	.byte	-124
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	-124
+	.byte	0
+	.byte	-124
+	.byte	-124
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	-124
+	.byte	-124
+	.byte	0
+	.byte	-124
+	.byte	0
+	.byte	-124
+	.byte	-124
+	.byte	-124
+	.byte	-124
+	.byte	-124
+	.text
+	.balign 2
+.globl _init_palette
+	.def	_init_palette;	.scl	2;	.type	32;	.endef
+_init_palette:
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	$_table_rgb.0
+	pushl	$15
+	pushl	$0
+	call	_set_palette
+	leave
+	ret
+	.balign 2
+.globl _set_palette
+	.def	_set_palette;	.scl	2;	.type	32;	.endef
+_set_palette:
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	%edi
+	pushl	%esi
+	pushl	%ebx
+	pushl	%ecx
+	movl	8(%ebp), %ebx
+	movl	12(%ebp), %edi
+	movl	16(%ebp), %esi
+	call	_io_load_eflags
+	movl	%eax, -16(%ebp)
+	call	_io_cli
+	pushl	%ebx
+	pushl	$968
+	call	_io_out8
+	cmpl	%edi, %ebx
+	popl	%eax
+	popl	%edx
+	jle	L11
+L13:
+	movl	-16(%ebp), %eax
+	movl	%eax, 8(%ebp)
+	leal	-12(%ebp), %esp
+	popl	%ebx
+	popl	%esi
+	popl	%edi
+	popl	%ebp
+	jmp	_io_store_eflags
+L11:
+	movb	(%esi), %al
+	incl	%ebx
+	shrb	$2, %al
+	movzbl	%al, %eax
+	pushl	%eax
+	pushl	$969
+	call	_io_out8
+	movb	1(%esi), %al
+	shrb	$2, %al
+	movzbl	%al, %eax
+	pushl	%eax
+	pushl	$969
+	call	_io_out8
+	movb	2(%esi), %al
+	shrb	$2, %al
+	addl	$3, %esi
+	movzbl	%al, %eax
+	pushl	%eax
+	pushl	$969
+	call	_io_out8
+	addl	$24, %esp
+	cmpl	%edi, %ebx
+	jle	L11
+	jmp	L13
+	.balign 2
+.globl _boxfill8
+	.def	_boxfill8;	.scl	2;	.type	32;	.endef
+_boxfill8:
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	%edi
+	pushl	%esi
+	pushl	%ebx
+	pushl	%edi
+	pushl	%edi
+	movb	16(%ebp), %al
+	movl	24(%ebp), %ecx
+	movl	28(%ebp), %edi
+	movb	%al, -13(%ebp)
+	cmpl	32(%ebp), %ecx
+	jg	L26
+	movl	12(%ebp), %ebx
+	imull	%ecx, %ebx
+L24:
+	movl	20(%ebp), %edx
+	cmpl	%edi, %edx
+	jg	L28
+	movl	8(%ebp), %esi
+	addl	%ebx, %esi
+	addl	%edx, %esi
+	movl	%esi, -20(%ebp)
+L23:
+	movl	-20(%ebp), %esi
+	movb	-13(%ebp), %al
+	incl	%edx
+	movb	%al, (%esi)
+	incl	%esi
+	movl	%esi, -20(%ebp)
+	cmpl	%edi, %edx
+	jle	L23
+L28:
+	incl	%ecx
+	addl	12(%ebp), %ebx
+	cmpl	32(%ebp), %ecx
+	jle	L24
+L26:
+	popl	%ebx
+	popl	%esi
+	popl	%ebx
+	popl	%esi
+	popl	%edi
+	popl	%ebp
+	ret
+.globl _font_data_array
+	.data
+_font_data_array:
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	0
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	0
+	.byte	0
+	.byte	1
+	.byte	0
+	.space 2
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	1
+	.byte	0
+	.space 2
+	.text
+	.balign 2
+.globl _draw_char
+	.def	_draw_char;	.scl	2;	.type	32;	.endef
+_draw_char:
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	%edi
+	pushl	%esi
+	pushl	%ebx
+	subl	$12, %esp
+	movzbl	16(%ebp), %eax
+	imull	$35, %eax, %eax
+	addl	$_font_data_array-2275, %eax
+	movl	24(%ebp), %edi
+	movl	%eax, -16(%ebp)
+	movl	$0, -24(%ebp)
+L40:
+	movl	-24(%ebp), %esi
+	movl	28(%ebp), %ebx
+	addl	-16(%ebp), %esi
+	movl	$4, -20(%ebp)
+L39:
+	cmpb	$1, (%esi)
+	je	L45
+L36:
+	addl	32(%ebp), %ebx
+	addl	$7, %esi
+	decl	-20(%ebp)
+	jns	L39
+	addl	32(%ebp), %edi
+	incl	-24(%ebp)
+	cmpl	$6, -24(%ebp)
+	jle	L40
+	leal	-12(%ebp), %esp
+	popl	%ebx
+	popl	%esi
+	popl	%edi
+	popl	%ebp
+	ret
+L45:
+	movl	32(%ebp), %edx
+	leal	(%edx,%ebx), %eax
+	pushl	%eax
+	leal	(%edx,%edi), %eax
+	pushl	%eax
+	pushl	%ebx
+	pushl	%edi
+	movzbl	20(%ebp), %eax
+	pushl	%eax
+	pushl	12(%ebp)
+	pushl	8(%ebp)
+	call	_boxfill8
+	addl	$28, %esp
+	jmp	L36
+	.balign 2
+.globl _draw_word
+	.def	_draw_word;	.scl	2;	.type	32;	.endef
+_draw_word:
+	pushl	%ebp
+	movl	%esp, %ebp
+	pushl	%edi
+	pushl	%esi
+	pushl	%ebx
+	xorl	%ebx, %ebx
+	pushl	%eax
+	movl	12(%ebp), %esi
+	movb	20(%ebp), %al
+	movb	%al, -13(%ebp)
+	movl	32(%ebp), %edi
+	cmpb	$0, (%esi)
+	je	L53
+L51:
+	movb	(%ebx,%esi), %dl
+	cmpb	$32, %dl
+	je	L54
+	movl	%ebx, %eax
+	pushl	%edi
+	imull	%edi, %eax
+	imull	$6, %eax, %eax
+	addl	24(%ebp), %eax
+	incl	%ebx
+	pushl	28(%ebp)
+	pushl	%eax
+	movzbl	-13(%ebp), %eax
+	pushl	%eax
+	movzbl	%dl, %eax
+	pushl	%eax
+	pushl	16(%ebp)
+	pushl	8(%ebp)
+	call	_draw_char
+	addl	$28, %esp
+L47:
+	cmpb	$0, (%ebx,%esi)
+	jne	L51
+L53:
+	leal	-12(%ebp), %esp
+	popl	%ebx
+	popl	%esi
+	popl	%edi
+	popl	%ebp
+	ret
+L54:
+	incl	%ebx
+	jmp	L47
+	.def	_io_store_eflags;	.scl	2;	.type	32;	.endef
+	.def	_io_out8;	.scl	2;	.type	32;	.endef
+	.def	_io_cli;	.scl	2;	.type	32;	.endef
+	.def	_io_load_eflags;	.scl	2;	.type	32;	.endef
+	.def	_set_palette;	.scl	2;	.type	32;	.endef
+	.def	_io_hlt;	.scl	2;	.type	32;	.endef
+	.def	_draw_word;	.scl	2;	.type	32;	.endef
+	.def	_init_palette;	.scl	2;	.type	32;	.endef
