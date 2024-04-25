@@ -1,8 +1,6 @@
 <div align="center">
 
-<img src="docs/img/logo.png" style="margin-bottom: 0; height: 256px; width: auto;">
-
----
+<img src="docs/img/logo.png" style="margin-bottom: 0; height: 64%; width: 64%;">
 
 <h1 style="margin-top: 0"> Ourse </h1>
 
