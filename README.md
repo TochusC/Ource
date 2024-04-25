@@ -1,6 +1,8 @@
 <div align="center">
 
-<h1> Ourse </h1>
+<img src="docs/img/logo.png" style="margin-bottom: 0">
+
+<h1 style="margin-top: 0"> Ourse </h1>
 
 ### 可能是最最简陋的操作系统
 

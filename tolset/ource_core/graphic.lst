@@ -461,26 +461,26 @@
        0000007A 2E 2E 2E 2E 2E 2E 
    457 00000080 2A 4F 4F 4F 4F 4F 4F 4F 2A 2E   	DB	"*OOOOOOO*......."
        0000008A 2E 2E 2E 2E 2E 2E 
-   458 00000090 2A 4F 4F 4F 4F 4F 4F 2A 2E 2E   	DB	"*OOOOOO*........"
+   458 00000090 2A 4F 4F 4F 4F 4F 4F 4F 2A 2E   	DB	"*OOOOOOO*......."
        0000009A 2E 2E 2E 2E 2E 2E 
-   459 000000A0 2A 4F 4F 4F 4F 4F 2A 2E 2E 2E   	DB	"*OOOOO*........."
+   459 000000A0 2A 4F 4F 4F 4F 4F 4F 4F 4F 2A   	DB	"*OOOOOOOO*......"
        000000AA 2E 2E 2E 2E 2E 2E 
-   460 000000B0 2A 4F 4F 4F 4F 2A 2E 2E 2E 2E   	DB	"*OOOO*.........."
-       000000BA 2E 2E 2E 2E 2E 2E 
-   461 000000C0 2A 4F 4F 4F 2A 2E 2E 2E 2E 2E   	DB	"*OOO*..........."
-       000000CA 2E 2E 2E 2E 2E 2E 
-   462 000000D0 2A 4F 4F 2A 2E 2E 2E 2E 2E 2E   	DB	"*OO*............"
-       000000DA 2E 2E 2E 2E 2E 2E 
-   463 000000E0 2A 4F 2A 2E 2E 2E 2E 2E 2E 2E   	DB	"*O*............."
-       000000EA 2E 2E 2E 2E 2E 2E 
-   464 000000F0 2A 2A 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"**.............."
-       000000FA 2E 2E 2E 2E 2E 2E 
-   465 00000100 2A 2E 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"*..............."
-       0000010A 2E 2E 2E 2E 2E 2E 
-   466 00000110 2E 2E 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"................"
-       0000011A 2E 2E 2E 2E 2E 2E 
-   467 00000120 2E 2E 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"................"
-       0000012A 2E 2E 2E 2E 2E 2E 
+   460 000000B0 2A 4F 4F 4F 4F 2A 2A 4F 4F 4F   	DB	"*OOOO**OOO*....."
+       000000BA 2A 2E 2E 2E 2E 2E 
+   461 000000C0 2A 4F 4F 4F 2A 2E 2E 2A 4F 4F   	DB	"*OOO*..*OOO*...."
+       000000CA 4F 2A 2E 2E 2E 2E 
+   462 000000D0 2A 4F 4F 2A 2E 2E 2E 2E 2A 4F   	DB	"*OO*....*OOO*..."
+       000000DA 4F 4F 2A 2E 2E 2E 
+   463 000000E0 2A 4F 2A 2E 2E 2E 2E 2E 2E 2A   	DB	"*O*......*OOO*.."
+       000000EA 4F 4F 4F 2A 2E 2E 
+   464 000000F0 2A 2A 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"**........*OOO*."
+       000000FA 2A 4F 4F 4F 2A 2E 
+   465 00000100 2A 2E 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"*..........*OOO*"
+       0000010A 2E 2A 4F 4F 4F 2A 
+   466 00000110 2E 2E 2E 2E 2E 2E 2E 2E 2E 2E   	DB	"............*OO*"
+       0000011A 2E 2E 2A 4F 4F 2A 
+   467 00000120 2E 2E 2E 2E 2E 2E 2E 2E 2E 2E   	DB	".............***"
+       0000012A 2E 2E 2E 2A 2A 2A 
    468                                          [SECTION .text]
    469 0000034C                                 	GLOBAL	_init_mouse_cursor8
    470 0000034C                                 _init_mouse_cursor8:
