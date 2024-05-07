@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <string.h>
 
+
+#define TEXT_AREA_SIZE_X 784
+#define TEXT_AREA_SIZE_Y 563
+#define WINDOW_SIZE_X 800
+#define WINDOW_SIZE_Y 600
+
 void console_task(struct SHEET *sheet, unsigned int memtotal)
 {
 	struct TIMER *timer;
@@ -15,7 +21,7 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
 	cons.sht = sheet;
 	cons.cur_x = 8;
 	cons.cur_y = 28;
-	cons.cur_c = -1;
+	cons.cur_c = COL8_FFFFFF;
 	*((int *) 0x0fec) = (int) &cons;
 
 	fifo32_init(&task->fifo, 128, fifobuf, task);
@@ -25,12 +31,23 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
 	file_readfat(fat, (unsigned char *) (ADR_DISKIMG + 0x000200));
 
     cons_putstr0(&cons, "\n"
-                        " _       __     __                        \n"
-                        "| |     / /__  / /________  ____ ___  ___ \n"
-                        "| | /| / / _ \\/ / ___/ __ \\/ __ `__ \\/ _ \\\n"
-                        "| |/ |/ /  __/ / /__/ /_/ / / / / / /  __/\n"
-                        "|__/|__/\\___/_/\\___/\\____/_/ /_/ /_/\\___/ \n"
-                        "                                          ");
+                        " _       __     __                             ______         ____                     \n"
+                        "| |     / /__  / /________  ____ ___  ___     /_  __/___     / __ \\__  _______________ \n"
+                        "| | /| / / _ \\/ / ___/ __ \\/ __ `__ \\/ _ \\     / / / __ \\   / / / / / / / ___/ ___/ _ \\\n"
+                        "| |/ |/ /  __/ / /__/ /_/ / / / / / /  __/    / / / /_/ /  / /_/ / /_/ / /  / /__/  __/\n"
+                        "|__/|__/\\___/_/\\___/\\____/_/ /_/ /_/\\___/    /_/  \\____/   \\____/\\____/_/   \\___/\\___/ \n"
+                        "                                                                                       ");
+
+    cons_newline(&cons);
+
+    cons_newline(&cons);
+    cons_putstr0(&cons, "---"
+                        "You should try to type \"help\""
+                        "---"
+                        );
+    cons_newline(&cons);
+
+    cons_newline(&cons);
 
 	/*显示提示符*/
 	cons_putchar(&cons, '>', 1);
@@ -82,10 +99,10 @@ void console_task(struct SHEET *sheet, unsigned int memtotal)
 					cons_putchar(&cons, '>', 1);
 				} else {
 					/*一般字符*/
-					if (cons.cur_x < 240) {
+					if (cons.cur_x < TEXT_AREA_SIZE_X) {
 						/*显示一个字符之后将光标后移一位*/
-						cmdline[cons.cur_x / 8 - 2] = i - 256;
-						cons_putchar(&cons, i - 256, 1);
+						cmdline[cons.cur_x / 8 - 2] = i - WINDOW_SIZE_X;
+						cons_putchar(&cons, i - WINDOW_SIZE_X, 1);
 					}
 				}
 			}
@@ -107,7 +124,7 @@ void cons_putchar(struct CONSOLE *cons, int chr, char move)
 		for (;;) {
 			putfonts8_asc_sht(cons->sht, cons->cur_x, cons->cur_y, COL8_FFFFFF, COL8_000000, " ", 1);
 			cons->cur_x += 8;
-			if (cons->cur_x == 8 + 240) {
+			if (cons->cur_x == 8 + 784) {
 				cons_newline(cons);
 			}
 			if (((cons->cur_x - 8) & 0x1f) == 0) {
@@ -123,7 +140,7 @@ void cons_putchar(struct CONSOLE *cons, int chr, char move)
 		if (move != 0) {
 			/* move为0时光标不后移*/
 			cons->cur_x += 8;
-			if (cons->cur_x == 8 + 240) {
+			if (cons->cur_x == 8 + TEXT_AREA_SIZE_X) {
 				cons_newline(cons);
 			}
 		}
@@ -135,21 +152,21 @@ void cons_newline(struct CONSOLE *cons)
 {
 	int x, y;
 	struct SHEET *sheet = cons->sht;
-	if (cons->cur_y < 28 + 112) {
+	if (cons->cur_y < 28 + TEXT_AREA_SIZE_Y) {
 		cons->cur_y += 16; /*到下一行*/
 	} else {
 		/*滚动*/
-		for (y = 28; y < 28 + 112; y++) {
-			for (x = 8; x < 8 + 240; x++) {
+		for (y = 28; y < 28 + TEXT_AREA_SIZE_Y; y++) {
+			for (x = 8; x < 8 + TEXT_AREA_SIZE_X; x++) {
 				sheet->buf[x + y * sheet->bxsize] = sheet->buf[x + (y + 16) * sheet->bxsize];
 			}
 		}
-		for (y = 28 + 112; y < 28 + 128; y++) {
-			for (x = 8; x < 8 + 240; x++) {
+		for (y = 28 + TEXT_AREA_SIZE_Y; y < 28 + WINDOW_SIZE_Y; y++) {
+			for (x = 8; x < 8 + TEXT_AREA_SIZE_X; x++) {
 				sheet->buf[x + y * sheet->bxsize] = COL8_000000;
 			}
 		}
-		sheet_refresh(sheet, 8, 28, 8 + 240, 28 + 128);
+		sheet_refresh(sheet, 8, 28, 8 + TEXT_AREA_SIZE_X, 28 + 128);
 	}
 	cons->cur_x = 8;
 	return;
@@ -205,11 +222,11 @@ void cmd_cls(struct CONSOLE *cons)
 	int x, y;
 	struct SHEET *sheet = cons->sht;
 	for (y = 28; y < 28 + 128; y++) {
-		for (x = 8; x < 8 + 240; x++) {
+		for (x = 8; x < 8 + TEXT_AREA_SIZE_X; x++) {
 			sheet->buf[x + y * sheet->bxsize] = COL8_000000;
 		}
 	}
-	sheet_refresh(sheet, 8, 28, 8 + 240, 28 + 128);
+	sheet_refresh(sheet, 8, 28, 8 + TEXT_AREA_SIZE_X, 28 + TEXT_AREA_SIZE_Y);
 	cons->cur_y = 28;
 	return;
 }
