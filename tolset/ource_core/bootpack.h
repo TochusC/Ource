@@ -59,19 +59,19 @@ void putblock8_8(char *vram, int vxsize, int pxsize,
 #define COL8_000000		0
 #define COL8_FF0000		1
 #define COL8_00FF00		2
-#define COL8_FFFF00		3
-#define COL8_0000FF		4
+#define COL8_261447		3
+#define COL8_C6C6C6		4
 #define COL8_FF00FF		5
-#define COL8_00FFFF		6
+#define COL8_8080FF		6
 #define COL8_FFFFFF		7
-#define COL8_C6C6C6		8
-#define COL8_840000		9
-#define COL8_008400		10
-#define COL8_848400		11
-#define COL8_000084		12
-#define COL8_840084		13
-#define COL8_008484		14
-#define COL8_848484		15
+#define COL8_FF634D		8
+#define COL8_FDD982		9
+#define COL8_FAECE6		10
+#define COL8_95D2BA		11
+#define COL8_FF3864     12
+#define COL8_F0F4FF		13
+#define COL8_4E67EB		14
+#define COL8_291D89		15
 
 /* dsctbl.c */
 struct SEGMENT_DESCRIPTOR {
@@ -237,10 +237,10 @@ struct CONSOLE {
 	int cur_x, cur_y, cur_c;
 };
 void console_task(struct SHEET *sheet, unsigned int memtotal);
-void cons_putchar(struct CONSOLE *cons, int chr, char move);
+void cons_putchar(struct CONSOLE *cons, int chr, char move, int col);
 void cons_newline(struct CONSOLE *cons);
-void cons_putstr0(struct CONSOLE *cons, char *s);
-void cons_putstr1(struct CONSOLE *cons, char *s, int l);
+void cons_putstr0(struct CONSOLE *cons, char *s, int col);
+void cons_putstr1(struct CONSOLE *cons, char *s, int l, int col);
 void cons_runcmd(char *cmdline, struct CONSOLE *cons, int *fat, unsigned int memtotal);
 void cmd_mem(struct CONSOLE *cons, unsigned int memtotal);
 void cmd_cls(struct CONSOLE *cons);

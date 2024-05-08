@@ -63,17 +63,13 @@ void HariMain(void)
     task_run(task_a, 1, 2);
 
     /* sht_back */
-    sht_back  = sheet_alloc(shtctl);
-    buf_back  = (unsigned char *) memman_alloc_4k(memman, binfo->scrnx * binfo->scrny);
-    sheet_setbuf(sht_back, buf_back, binfo->scrnx, binfo->scrny, -1); /* 无透明色 */
-    init_screen8(buf_back, binfo->scrnx, binfo->scrny);
 
     /* sht_cons */
     sht_cons = sheet_alloc(shtctl);
-    buf_cons = (unsigned char *) memman_alloc_4k(memman, 800 * 600);
-    sheet_setbuf(sht_cons, buf_cons, 800, 600, -1); /* 无透明色 */
-    make_window8(buf_cons, 800, 600, "console", 0);
-    make_textbox8(sht_cons, 8, 28, 784, 563, COL8_000000);
+    buf_cons = (unsigned char *) memman_alloc_4k(memman, 1024 * 768);
+    sheet_setbuf(sht_cons, buf_cons, 1024, 768, -1); /* 无透明色 */
+    make_window8(buf_cons, 1024, 768, "console", 1);
+    make_textbox8(sht_cons, 8, 28, 1024 - 16, 768 - 37, COL8_000000);
     task_cons = task_alloc();
     task_cons->tss.esp = memman_alloc_4k(memman, 64 * 1024) + 64 * 1024 - 12;
     task_cons->tss.eip = (int) &console_task;
@@ -106,11 +102,9 @@ void HariMain(void)
     mx = (binfo->scrnx - 16) / 2; /* 计算坐标使其位于画面中央 */
     my = (binfo->scrny - 28 - 16) / 2;
 
-    sheet_slide(sht_back,  0,  0);
     sheet_slide(sht_cons, 0,  0);
     sheet_slide(sht_win,  64, 56);
     sheet_slide(sht_mouse, mx, my);
-    sheet_updown(sht_back,  0);
     sheet_updown(sht_win,   2);
     sheet_updown(sht_mouse, 3);
     sheet_updown(sht_cons,  5);
