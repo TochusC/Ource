@@ -6,7 +6,7 @@
 
 ### 可能是最最简陋的操作系统
 
-[![version](https://img.shields.io/badge/Version-0.0.1-blue)](https://github.com/TochusC/ource)
+[![version](https://img.shields.io/badge/Version-0.1.2-blue)](https://github.com/TochusC/ource)
 [![course](https://img.shields.io/badge/UPC-OperatingSystem-blue)](https://www.upc.edu.cn/)
 
 [![madewithlove](https://img.shields.io/badge/made_with-%E2%9D%A4-red?style=for-the-badge&labelColor=orange)](https://github.com/TochusC)
