@@ -6,10 +6,10 @@
 
 ### 可能是最最简陋的操作系统
 
-[![version](https://img.shields.io/badge/Version-0.0.1-blue)](https://github.com/TochusC/ai-assistant-teaching-website)
-[![course](https://img.shields.io/badge/UPC-OperatingSystem-blue)](https://github.com/TochusC/ai-assistant-teaching-website)
+[![version](https://img.shields.io/badge/Version-0.0.1-blue)](https://github.com/TochusC/ource)
+[![course](https://img.shields.io/badge/UPC-OperatingSystem-blue)](https://www.upc.edu.cn/)
 
-[![madewithlove](https://img.shields.io/badge/made_with-%E2%9D%A4-red?style=for-the-badge&labelColor=orange)](https://github.com/TochusC/ai-assistant-teaching-website)
+[![madewithlove](https://img.shields.io/badge/made_with-%E2%9D%A4-red?style=for-the-badge&labelColor=orange)](https://github.com/TochusC)
 
 
 [**简体中文**](./README.md) 
@@ -75,3 +75,8 @@ Ource OS采用**FAT12**文件系统进行文件管理，目前仅支持文件的
 ### 支持的系统调用
 - `api_putchar` 输出字符
 - `api_putstr0` 输出字符串
+
+## 如何运行❓
+`release`文件夹中提供了`ource.iso`镜像文件，可用VMware Workstation等虚拟机软件运行。
+
+![002.png](./docs/img/002.png)
