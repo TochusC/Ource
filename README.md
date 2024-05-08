@@ -42,9 +42,15 @@ docs  # README相关文件
 
 projects  #《30天自制操作系统》的中文源码
 
+release  # 发布版本
+├──ource.iso # 发布的镜像文件（可用VMware Workstation等虚拟机软件运行）
+├──ource.img # 发布的软盘镜像文件
+
 tolset # 《30天自制操作系统》的工具集
 ├── ource_core # 操作系统核心代码
 ├── others # 其他工具
+
+
 ```
 
 
