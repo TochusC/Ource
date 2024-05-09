@@ -1,7 +1,4 @@
-# IDEœ‡πÿ
-.idea
-# CMAKE
-cmake-build-debug
+
 
 # Prerequisites
 *.d
@@ -55,3 +52,5 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+/cmake-build-debug/
+/.idea/
