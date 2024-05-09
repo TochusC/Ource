@@ -1,3 +1,0 @@
-C:/Users/20532/CLionProjects/Ource/cmake-build-debug/CMakeFiles/Ource.dir
-C:/Users/20532/CLionProjects/Ource/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/20532/CLionProjects/Ource/cmake-build-debug/CMakeFiles/rebuild_cache.dir
