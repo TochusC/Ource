@@ -4,12 +4,17 @@
 
 <h1 style="margin-top: 0"> Ourse </h1>
 
-### 可能是最最简陋的操作系统
+### 可能是最简单基础的操作系统，但 100% Lovingly Crafted❤️
+
+
 
 [![version](https://img.shields.io/badge/Version-0.1.2-blue)](https://github.com/TochusC/ource)
 [![course](https://img.shields.io/badge/UPC-OperatingSystem-blue)](https://www.upc.edu.cn/)
+![license](https://img.shields.io/badge/License-MIT-green)
+
 
 [![madewithlove](https://img.shields.io/badge/made_with-%E2%9D%A4-red?style=for-the-badge&labelColor=orange)](https://github.com/TochusC)
+
 
 
 [**简体中文**](./README.md) 
@@ -61,6 +66,8 @@ Ource实现了操作系统内核应提供的支撑功能：中断处理、时钟
 
 ### 支撑功能
 
+---
+
 #### 中断处理
 通过设置中断向量表，实现了对中断的处理，目前支持的中断信号有：
 - 异常中断 中断信号0x0d
@@ -80,6 +87,8 @@ Ource OS实现了对原语操作的支持，通过io_cli和io_sti函数可以设
 
 
 ### 资源管理
+
+---
 
 #### 处理器管理
 
@@ -102,12 +111,21 @@ Ource OS采用**FAT12**文件系统进行文件管理，目前仅支持文件的
 
 ## 更多细节🔍
 
+
 以《30天自制操作系统中的》.hrb文件格式作为系统的可执行文件，使用其提供的tolset工具集进行编译和链接。
 
 通过设置不同应用程序的内存段属性，实现操作系统和应用程序之间的隔离与保护。
 
 通过中断实现系统调用，目前提供了往控制台终端输出字符和换行的系统调用函数api_putchar和api_end;
 
+### 目前支持的指令
+```
+help # 查看帮助
+cls # 清屏
+dir # 查看当前目录下的文件
+type # 查看文件内容
+mem # 查看内存使用情况
+```
 
 ## 如何运行❓
 `release`文件夹中提供了`ource.iso`镜像文件，可用VMware Workstation等虚拟机软件运行。
