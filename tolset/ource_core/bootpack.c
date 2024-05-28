@@ -7,7 +7,7 @@
 
 void HariMain(void)
 {
-    struct BOOTINFO *binfo = (struct BOOTINFO *) ADR_BOOTINFO;
+    struct BOOTINFO *binfo = (struct BOOTcINFO *) ADR_BOOTINFO;
     struct SHTCTL *shtctl;
     char s[40];
     struct FIFO32 fifo, keycmd;
