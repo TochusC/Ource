@@ -25,8 +25,8 @@ void init_pit(void)
 	t->timeout = 0xffffffff;
 	t->flags = TIMER_FLAGS_USING;
 	t->next = 0; /* 末尾 */
-	timerctl.t0 = t; /* 因为现在只有哨兵，所以他就在最前面*/
-	timerctl.next = 0xffffffff; /* 因为只有哨兵，所以下一个超时时刻就是哨兵的时刻 */
+	timerctl.t0 = t;
+	timerctl.next = 0xffffffff;
 	return;
 }
 

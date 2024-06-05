@@ -1,7 +1,6 @@
 /* bootpack */
 
 #include "bootpack.h"
-#include <stdio.h>
 
 #define KEYCMD_LED		0xed
 
@@ -12,11 +11,11 @@ void HariMain(void)
     char s[40];
     struct FIFO32 fifo, keycmd;
     int fifobuf[128], keycmd_buf[32];
-    int mx, my, i, cursor_x, cursor_c;
+    int i, cursor_x, cursor_c;
     unsigned int memtotal;
     struct MEMMAN *memman = (struct MEMMAN *) MEMMAN_ADDR;
-    unsigned char *buf_back, buf_mouse[256], *buf_win, *buf_cons;
-    struct SHEET *sht_back, *sht_mouse, *sht_win, *sht_cons;
+    unsigned char *buf_win, *buf_cons;
+    struct SHEET *sht_win, *sht_cons;
     struct TASK *task_a, *task_cons;
     struct TIMER *timer;
     static char keytable0[0x80] = {
@@ -62,8 +61,6 @@ void HariMain(void)
     fifo.task = task_a;
     task_run(task_a, 1, 2);
 
-    /* sht_back */
-
     /* sht_cons */
     sht_cons = sheet_alloc(shtctl);
     buf_cons = (unsigned char *) memman_alloc_4k(memman, 1024 * 768);
@@ -94,20 +91,6 @@ void HariMain(void)
     timer = timer_alloc();
     timer_init(timer, &fifo, 1);
     timer_settime(timer, 50);
-
-    /* sht_mouse */
-    sht_mouse = sheet_alloc(shtctl);
-    sheet_setbuf(sht_mouse, buf_mouse, 16, 16, 99);
-    init_mouse_cursor8(buf_mouse, 99);
-    mx = (binfo->scrnx - 16) / 2; /* 计算坐标使其位于画面中央 */
-    my = (binfo->scrny - 28 - 16) / 2;
-
-    sheet_slide(sht_cons, 0,  0);
-    sheet_slide(sht_win,  64, 56);
-    sheet_slide(sht_mouse, mx, my);
-    sheet_updown(sht_win,   2);
-    sheet_updown(sht_mouse, 3);
-    sheet_updown(sht_cons,  5);
 
 
     /*为了避免和键盘当前状态冲突，在一开始先进行设置*/
@@ -151,24 +134,6 @@ void HariMain(void)
                 }
                 if (i == 256 + 0x1c) { /*回车键*/
                     fifo32_put(&task_cons->fifo, 10 + 256);
-                }
-                if (i == 256 + 0x0f) {	/* Tab */
-//                    if (key_to == 0) {
-//                        key_to = 1;
-//                        make_wtitle8(buf_win,  sht_win->bxsize,  "task_a",  0);
-//                        make_wtitle8(buf_cons, sht_cons->bxsize, "console", 1);
-//                        cursor_c = -1; /* 不显示光标 */
-//                        boxfill8(sht_win->buf, sht_win->bxsize, COL8_FFFFFF, cursor_x, 28, cursor_x + 7, 43);
-//                        fifo32_put(&task_cons->fifo, 2); /*命令行窗口光标ON */
-//                    } else {
-//                        key_to = 0;
-//                        make_wtitle8(buf_win,  sht_win->bxsize,  "task_a",  1);
-//                        make_wtitle8(buf_cons, sht_cons->bxsize, "console", 0);
-//                        cursor_c = COL8_000000;
-//                        fifo32_put(&task_cons->fifo, 3); /*命令行窗口光标OFF */
-//                    }
-//                    sheet_refresh(sht_win,  0, 0, sht_win->bxsize,  21);
-//                    sheet_refresh(sht_cons, 0, 0, sht_cons->bxsize, 21);
                 }
                 if (i == 256 + 0x2a) { /*左Shift ON */
                     key_shift |= 1;

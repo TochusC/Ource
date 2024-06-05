@@ -1,7 +1,7 @@
 /*初始化关系 */
 
 #include "bootpack.h"
-#include <stdio.h>
+
 
 void init_pic(void)
 /* PIC初始化 */
