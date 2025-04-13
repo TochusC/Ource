@@ -20,7 +20,7 @@
 [**简体中文**](./README.md) 
 
 
-[中国石油大学(华东)](https://upc.edu.cn/)-操作系统结课作业
+[中国石油大学(华东)](https://upc.edu.cn/)-[操作系统满分课设(100分)]
 
 </div>
 
@@ -30,7 +30,7 @@
 ---
 <div align="center">
 
-### 仍在火热施工中🔨...
+### 阶段性完工🔨...
 
 
 Ource操作系统参考自川合秀实编著，周自恒翻译的[30天自制操作系统](https://viterbi-web.usc.edu/~yudewei/main/sources/books/30%E5%A4%A9%E8%87%AA%E5%88%B6%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/)中的Haribote（纸娃娃）系统编写，所参考的中文源码来自[
